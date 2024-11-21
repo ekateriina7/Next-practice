@@ -3,7 +3,11 @@ import Navigation from './_components/Navigation'
 import './_styles/globals.css'
 
 export const metadata = {
-  title: 'My cabin'
+  title: {
+    template: '%s My Cabin',
+    default: 'Welcome to My Cabin'
+  },
+  description: 'Cabin hotels in Canada'
 }
 
 export default function RootLayout({
