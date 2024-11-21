@@ -1,6 +1,14 @@
 import Logo from './_components/Logo'
 import Navigation from './_components/Navigation'
+import { Josefin_Sans } from 'next/font/google'
 import './_styles/globals.css'
+const josefinSans = Josefin_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+
+
 
 export const metadata = {
   title: {
@@ -18,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
 
-      <body className='bg-primary-950 text-primary-100'>
+      <body className={`${ josefinSans.className} bg-primary-950 text-primary-100`}>
         <header>
           <Logo />
           <Navigation />
