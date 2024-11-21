@@ -1,5 +1,5 @@
-import Logo from './components/Logo'
-import Navigation from './components/Navigation'
+import Logo from './_components/Logo'
+import Navigation from './_components/Navigation'
 
 export const metadata = {
   title: 'My cabin'
@@ -18,7 +18,7 @@ export default function RootLayout({
           <Logo />
           <Navigation />
         </header>
-        
+
         {children}
       </body>
     </html>
