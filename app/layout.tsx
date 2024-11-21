@@ -1,5 +1,6 @@
 import Logo from './_components/Logo'
 import Navigation from './_components/Navigation'
+import './_styles/globals.css'
 
 export const metadata = {
   title: 'My cabin'
@@ -13,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
 
-      <body>
+      <body className='bg-primary-950 text-primary-100'>
         <header>
           <Logo />
           <Navigation />
