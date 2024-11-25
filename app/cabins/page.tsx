@@ -1,12 +1,16 @@
 import React from 'react'
 import CabinCard from '../_components/CabinCard';
+import { getCabins } from '../_lib/data-service';
+import { Cabin } from '../_types/cabin';
 
 export const metadata = {
   title: 'Cabins'
 }
-export default function Page() {
+
+export default async function Page() {
   // CHANGE, types
-  const cabins: any[] = [];
+  const cabins: Cabin[] = await getCabins();
+  console.log(cabins)
 
   return (
     <div>

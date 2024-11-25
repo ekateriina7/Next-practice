@@ -1,4 +1,5 @@
 import { eachDayOfInterval } from 'date-fns';
+import { Cabin } from '../_types/cabin';
 import { supabase } from './supabase';
 
 /////////////
@@ -35,10 +36,10 @@ export async function getCabinPrice(id) {
   return data;
 }
 
-export const getCabins = async function () {
+export const getCabins = async function (): Promise<Cabin[]> {
   const { data, error } = await supabase
     .from('cabins')
-    .select('id, name, maxCapacity, regularPrice, discount, image')
+    .select('id, name, max_capacity, regular_price, discount, image, created_at, description')
     .order('name');
 
   if (error) {
@@ -46,8 +47,9 @@ export const getCabins = async function () {
     throw new Error('Cabins could not be loaded');
   }
 
-  return data;
+  return data as Cabin[];
 };
+
 
 // Guests are uniquely identified by their email address
 export async function getGuest(email) {
