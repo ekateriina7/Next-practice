@@ -5,21 +5,19 @@ import { supabase } from './supabase';
 /////////////
 // GET
 
-export async function getCabin(id) {
+export async function getCabin(id: string): Promise<Cabin | null> {
   const { data, error } = await supabase
     .from('cabins')
     .select('*')
     .eq('id', id)
     .single();
 
-  // For testing
-  // await new Promise((res) => setTimeout(res, 1000));
-
   if (error) {
     console.error(error);
+    return null;
   }
 
-  return data;
+  return data as Cabin;
 }
 
 export async function getCabinPrice(id) {
