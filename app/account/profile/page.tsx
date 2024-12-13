@@ -1,13 +1,15 @@
 import SelectCountry from "@/app/_components/SelectCountry";
 import UpdateProfileForm from "@/app/_components/UpdateProfileForm";
+import { getCountries } from '@/app/_lib/data-service';
 
 export const metadata = {
   title: "Update profile",
 };
 
-export default function Page() {
-  const countryFlag = "pt.jpg";
+export default async function Page() {
+  const countries = await getCountries();
   const nationality = "portugal";
+  
   return (
     <div>
       <h2 className="font-semibold text-2xl text-accent-400 mb-4">
@@ -24,6 +26,7 @@ export default function Page() {
           id="nationality"
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
           defaultCountry={nationality}
+          countries={countries}
         />
       </UpdateProfileForm>
     </div>
