@@ -1,4 +1,4 @@
-//import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval } from 'date-fns';
 import { notFound } from 'next/navigation';
 import { Cabin } from '../_types/cabin';
 import { supabase } from './supabase';
@@ -94,46 +94,46 @@ export const getCabins = async function (): Promise<Cabin[]> {
 //   return data;
 // }
 
-// export async function getBookedDatesByCabinId(cabinId) {
-//   let today = new Date();
-//   today.setUTCHours(0, 0, 0, 0);
-//   today = today.toISOString();
+export async function getBookedDatesByCabinId(cabinId) {
+  let today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  today = today.toISOString();
 
-//   // Getting all bookings
-//   const { data, error } = await supabase
-//     .from('bookings')
-//     .select('*')
-//     .eq('cabinId', cabinId)
-//     .or(`startDate.gte.${today},status.eq.checked-in`);
+  // Getting all bookings
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*')
+    .eq('cabin_id', cabinId)
+    .or(`start_date.gte.${today},status.eq.checked-in`);
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error('Bookings could not get loaded');
-//   }
+  if (error) {
+    console.error(error);
+    throw new Error('Bookings could not get loaded');
+  }
 
-//   // Converting to actual dates to be displayed in the date picker
-//   const bookedDates = data
-//     .map((booking) => {
-//       return eachDayOfInterval({
-//         start: new Date(booking.startDate),
-//         end: new Date(booking.endDate),
-//       });
-//     })
-//     .flat();
+  // Converting to actual dates to be displayed in the date picker
+  const bookedDates = data
+    .map((booking) => {
+      return eachDayOfInterval({
+        start: new Date(booking.startDate),
+        end: new Date(booking.endDate),
+      });
+    })
+    .flat();
 
-//   return bookedDates;
-// }
+  return bookedDates;
+}
 
-// export async function getSettings() {
-//   const { data, error } = await supabase.from('settings').select('*').single();
+export async function getSettings() {
+  const { data, error } = await supabase.from('settings').select('*').single();
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error('Settings could not be loaded');
-//   }
+  if (error) {
+    console.error(error);
+    throw new Error('Settings could not be loaded');
+  }
 
-//   return data;
-// }
+  return data;
+}
 
 export async function getCountries() {
   try {
