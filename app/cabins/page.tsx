@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import CabinList from '../_components/CabinList';
 import Filter from '../_components/Filter';
+import ReservationReminder from '../_components/ReservationReminder';
 import Spinner from '../_components/Spinner';
 import { getCabins } from '../_lib/data-service';
 import { Cabin } from '../_types/cabin';
@@ -39,6 +40,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
       </div>
       <Suspense key={filter} fallback={<Spinner />}>
         <CabinList cabins={displayedCabins} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
