@@ -3,9 +3,21 @@ import { isWithinInterval } from "date-fns";
 import { useContext, useState } from 'react';
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { Cabin } from '../_types/cabin';
 import { useReservation } from './ReservationContext';
 
-function isAlreadyBooked(range, datesArr) {
+interface Settings {
+  min_booking_length: number;
+  max_mooking_length: number;
+}
+
+interface DateSelectorProps {
+  settings: Settings;
+  cabin: Cabin;
+  bookedDates: Date[];
+}
+
+function isAlreadyBooked(range: { from?: Date; to?: Date }, datesArr: Date[]): boolean {
   return (
     range.from &&
     range.to &&
@@ -15,7 +27,7 @@ function isAlreadyBooked(range, datesArr) {
   );
 }
 
-function DateSelector({ settings, cabin, bookedDates }) {
+const DateSelector = ({ settings, cabin, bookedDates }: DateSelectorProps) => {
   const { range, setRange, resetRange } = useReservation()
   
   const regularPrice = 23;
