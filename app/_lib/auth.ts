@@ -18,7 +18,10 @@ const authConfig = {
     authorized({ auth, request }: { auth: Auth; request: NextApiRequest }) {
       return !!auth?.user
     }
+  },
+  pages: {
+    signIn: '/login'
   }
 }
 
-export const { auth, handlers: { GET, POST } } = NextAuth(authConfig)
+export const { auth, signIn, signOut, handlers: { GET, POST } } = NextAuth(authConfig)
