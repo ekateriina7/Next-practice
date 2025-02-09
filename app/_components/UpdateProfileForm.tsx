@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, } from "react";
 import { Guest } from "../_types/guest";
 import { updateProfile } from "../_lib/actions";
 
@@ -10,7 +10,7 @@ type UpdateProfileFormProps = {
 
 
 export default function UpdateProfileForm({ children, guest }: UpdateProfileFormProps) {
-  const {full_name, email, nationality, nationalID, countryFlag} = guest;
+  const {full_name, email, national_id, country_flag} = guest;
 
   return (
     <form action={updateProfile} className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
@@ -38,7 +38,7 @@ export default function UpdateProfileForm({ children, guest }: UpdateProfileForm
         <div className="flex items-center justify-between">
           <label htmlFor="nationality">Where are you from?</label>
           <img
-            src={countryFlag}
+            src={country_flag}
             alt="Country flag"
             className="h-5 rounded-sm"
           />
@@ -48,8 +48,8 @@ export default function UpdateProfileForm({ children, guest }: UpdateProfileForm
       <div className="space-y-2">
         <label htmlFor="nationalID">National ID number</label>
         <input
-          defaultValue={nationalID}
-          name="nationalID"
+          defaultValue={national_id}
+          name="national_id"
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
         />
       </div>

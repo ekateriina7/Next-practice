@@ -1,7 +1,8 @@
 export interface Guest {
   id: string;
-  fullName: string;
+  full_name: string;
   email: string;
   nationality?: string;
-  nationalId?: string;
+  national_id?: string;
+  country_flag?: string;
 } 
