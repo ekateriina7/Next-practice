@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { auth, signIn, signOut } from './auth';
 import { supabase } from './supabase';
 import type { Guest } from '@/app/_types/guest';
@@ -28,6 +29,7 @@ export async function updateProfile(formData: FormData): Promise<void> {
     console.error(error);
     throw new Error('Guest could not be updated');
   }
+  revalidatePath('/account/profile');
 }
 
 export async function signInAction() {
