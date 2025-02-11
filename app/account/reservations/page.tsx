@@ -1,13 +1,18 @@
 import ReservationCard from '@/app/_components/ReservationCard';
+import { auth } from '@/app/_lib/auth';
+import { getBookings } from '@/app/_lib/data-service';
 import { Reservation } from '@/app/_types/reservation';
 
 export const metadata = {
   title: 'Reservations'
 }
 
-export default function Page() {
-  // CHANGE
-  const bookings: Reservation[] = []
+export default async function Page() {
+  const session = await auth();
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+  const bookings: Reservation[] = await getBookings((session.user as any).guest_id);
   return (
     <div>
       <h2 className="font-semibold text-2xl text-accent-400 mb-7">

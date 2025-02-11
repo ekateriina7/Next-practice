@@ -1,6 +1,7 @@
 import { eachDayOfInterval } from 'date-fns';
 import { notFound } from 'next/navigation';
 import { Cabin } from '../_types/cabin';
+import { Reservation } from '../_types/reservation';
 import { supabase } from './supabase';
 
 /////////////
@@ -76,23 +77,25 @@ export async function getGuest(email) {
 //   return data;
 // }
 
-// export async function getBookings(guestId) {
-//   const { data, error, } = await supabase
-//     .from('bookings')
-//     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
-//     .select(
-//       'id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)'
-//     )
-//     .eq('guestId', guestId)
-//     .order('startDate');
+export async function getBookings(guestId: string): Promise<Reservation[]> {
+  const { data } = await supabase
+    .from('bookings')
+    .select('*, cabins(name, image)')
+    .eq('guest_id', guestId);
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error('Bookings could not get loaded');
-//   }
-
-//   return data;
-// }
+  return data?.map(booking => ({
+    id: booking.id,
+    created_at: booking.created_at,
+    start_date: booking.start_date,
+    end_date: booking.end_date,
+    num_nights: booking.num_nights,
+    num_guests: booking.num_guests,
+    total_price: booking.total_price,
+    guest_id: booking.guest_id,
+    cabin_id: booking.cabin_id,
+    cabins: booking.cabins
+  })) ?? [];
+}
 
 export async function getBookedDatesByCabinId(cabinId) {
   let today = new Date();
