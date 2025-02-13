@@ -3,25 +3,12 @@ import React, { ReactNode, } from "react";
 import { Guest } from "../_types/guest";
 import { updateProfile } from "../_lib/actions";
 import { useFormStatus } from 'react-dom';
+import SubmitButton from './SubmitButton';
+import Image from 'next/image';
 
 type UpdateProfileFormProps = {
   guest: Guest;
   children?: ReactNode;
-};
-
-
-const UpdateProfileButton = () => {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      type="submit"
-      className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 
-        transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
-      disabled={pending}
-    >
-      {pending ? 'Updating...' : 'Update profile'}
-    </button>
-  );
 };
 
 export default function UpdateProfileForm({ children, guest }: UpdateProfileFormProps) {
@@ -53,11 +40,15 @@ export default function UpdateProfileForm({ children, guest }: UpdateProfileForm
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label htmlFor="nationality">Where are you from?</label>
-          <img
-            src={country_flag}
-            alt="Country flag"
-            className="h-5 rounded-sm"
-          />
+          {country_flag && (
+            <Image
+              src={country_flag}
+              alt="Country flag"
+              width={40}
+              height={40}
+              className="rounded-sm"
+            />
+          )}
         </div>{children}
       </div>
 
@@ -71,7 +62,7 @@ export default function UpdateProfileForm({ children, guest }: UpdateProfileForm
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        <UpdateProfileButton />
+        <SubmitButton>Update profile</SubmitButton>
       </div>
     </form>
   );

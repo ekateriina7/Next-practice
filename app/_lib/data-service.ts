@@ -62,20 +62,20 @@ export async function getGuest(email) {
   return data;
 }
 
-// export async function getBooking(id) {
-//   const { data, error, } = await supabase
-//     .from('bookings')
-//     .select('*')
-//     .eq('id', id)
-//     .single();
+export async function getBooking(id) {
+  const { data, error, } = await supabase
+    .from('bookings')
+    .select('*')
+    .eq('id', id)
+    .single();
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error('Booking could not get loaded');
-//   }
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not get loaded');
+  }
 
-//   return data;
-// }
+  return data;
+}
 
 export async function getBookings(guestId: string): Promise<Reservation[]> {
   const { data } = await supabase
@@ -153,7 +153,7 @@ export async function getCountries() {
 // /////////////
 // // CREATE
 
-export async function createGuest(newGuest) {
+export async function createGuest(newGuest: Partial<Guest>): Promise<Guest[]> {
   const { data, error } = await supabase.from('guests').insert([newGuest]);
 
   if (error) {

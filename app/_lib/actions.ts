@@ -6,6 +6,7 @@ import { supabase } from './supabase';
 import type { Guest } from '@/app/_types/guest';
 import type { User } from 'next-auth';
 import { getBookings } from './data-service';
+import { redirect } from 'next/navigation';
 
 type UserWithGuestId = User & { guest_id: string };
 
@@ -54,6 +55,39 @@ export async function deleteReservation(bookingId: string) {
     throw new Error('Booking could not be deleted');
   }
   revalidatePath('/account/reservations');
+}
+
+export async function updateReservation(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+
+  const booking_id = formData.get('booking_id')?.toString();
+  if (!booking_id) throw new Error('Booking ID is required');
+
+  // secure the update action
+  const guestBookings = await getBookings((session.user as UserWithGuestId).guest_id);
+  const bookingIds = guestBookings.map(booking => booking.id.toString());
+  if (!bookingIds.includes(booking_id)) {
+    throw new Error('Unauthorized');
+  }
+
+  const { error } = await supabase
+    .from('bookings')
+    .update({
+      num_guests: Number(formData.get('num_guests')),
+      observations: formData.get('observations')?.slice(0, 255)
+    })
+    .eq('id', Number(booking_id));
+
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be updated');
+  }
+  revalidatePath('/account/reservations');
+  revalidatePath(`/account/reservations/edit/${booking_id}`);
+  redirect(`/account/reservations`);
 }
 
 export async function signInAction() {
